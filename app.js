@@ -1,3 +1,4 @@
+const cursor = document.getElementById("cursor");
 let listBg = document.querySelectorAll('.bg');
 let listTab = document.querySelectorAll('.tab');
 let titleBanner = document.querySelector('.banner h1');
@@ -62,3 +63,4 @@ function raf(time) {
 }
 
 requestAnimationFrame(raf)
+

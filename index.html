@@ -1,167 +1,313 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hackathon</title>
-    <script src="https://kit.fontawesome.com/0df7b1e125.js" crossorigin="anonymous"></script>t>
-    <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.13/dist/lenis.css">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hackathon</title>
+  <script src="https://kit.fontawesome.com/0df7b1e125.js" crossorigin="anonymous"></script>t>
+  <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.13/dist/lenis.css">
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <div class="banner">
-        <div class="bg bg-1"></div>
-        <div class="bg bg-2"></div>
-        <div class="bg bg-3"></div>
-        <h1>FireWatch</h1>
-        <div class="bg bg-4"></div>
-        <div class="bg bg-5"></div>
-        <div class="bg bg-6"></div>
-        <div class="bg bg-7"></div>
-        <div class="bg bg-8"></div>
-        <div class="bg bg-9"></div>
+  <div class="cursor" id="cursor"></div>
+  <div class="banner">
+    <div class="bg bg-1"></div>
+    <div class="bg bg-2"></div>
+    <div class="bg bg-3"></div>
+    <h1>FireWatch</h1>
+    <div class="bg bg-4"></div>
+    <div class="bg bg-5"></div>
+    <div class="bg bg-6"></div>
+    <div class="bg bg-7"></div>
+    <div class="bg bg-8"></div>
+    <div class="bg bg-9"></div>
+  </div>
+
+  <div class="tab intro">
+    <h2 class="animation-show" id="heading">About Us</h2>
+
+    <p class="animation-show" id="description">
+      The Firewatch Chronograph is a stunning timepiece that captures the essence of the Wyoming wilderness. Its rugged
+      design and bold colors evoke the spirit of adventure and exploration. Featuring a stainless steel case, a
+      comfortable leather strap, and a high-quality Japanese movement, this watch is both stylish and durable. The
+      chronograph function allows you to measure time with precision, making it perfect for outdoor activities.
+    </p>
+    <button>
+      <div class="default-btn">
+        <svg class="css-i6dzq1" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke-width="2"
+          stroke="#FFF" height="20" width="20" viewBox="0 0 24 24">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+          <circle r="3" cy="12" cx="12"></circle>
+        </svg>
+        <span>Quick View</span>
+      </div>
+      <div class="hover-btn">
+        <svg class="css-i6dzq1" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke-width="2"
+          stroke="#ffd300" height="20" width="20" viewBox="0 0 24 24">
+          <circle r="1" cy="21" cx="9"></circle>
+          <circle r="1" cy="21" cx="20"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+        <span>Shop Now</span>
+      </div>
+    </button>
+    <div class="model-container">
+      <model-viewer alt="Watch" id="watch" src="./img/timex_expedition_watch.glb" shadow-intensity="1" camera-controls
+        camera-orbit="45deg 55deg"></model-viewer>
     </div>
+  </div>
 
-    <div class="tab intro">
-        <h2 class="animation-show" id="heading">About Us</h2>
-        
-        <p class="animation-show" id="description">
-            The Firewatch Chronograph is a stunning timepiece that captures the essence of the Wyoming wilderness. Its rugged design and bold colors evoke the spirit of adventure and exploration. Featuring a stainless steel case, a comfortable leather strap, and a high-quality Japanese movement, this watch is both stylish and durable. The chronograph function allows you to measure time with precision, making it perfect for outdoor activities.    
-        </p>
-        <button class="btn" id="product">Buy Now</button>
-        <div class="model-container">
-            <model-viewer alt="Watch" id="watch" src="./img/timex_expedition_watch.glb"  shadow-intensity="1" camera-controls camera-orbit="45deg 55deg"></model-viewer>
-        </div>
-        </div>
-
-    <div class="tab cart">
-        <h1 id="carts-heading">
-            Add to Cart
-        </h1>
-        <div class="container">
-            <div class="cart-container">
-                <div class="cart-item">
-                    <img src="https://placehold.co/300x200" alt="Idk" class="cart-image">
-                    <h1 class="cart-heading">FireWatch Fiery Pheonix</h1>
-                    <p class="cart-description">The all new pheonix edition provides a new display with finishes from a pheonix ashes taken from Dumbledore's pheonix Fawks the bird was carefully killed a million times to get the perfect amount of pheonix ash to make this watch.</p>
-                    <button class="btn" id="cart-btn">Buy Now</button>
-                </div>
-                <div class="cart-item">
-                    <img src="https://placehold.co/300x200" alt="Idk" class="cart-image">
-                    <h1 class="cart-heading">FireWatch Fiery Pheonix</h1>
-                    <p class="cart-description">The all new pheonix edition provides a new display with finishes from a pheonix ashes taken from Dumbledore's pheonix Fawks the bird was carefully killed a million times to get the perfect amount of pheonix ash to make this watch.</p>
-                    <button class="btn" id="cart-btn">Buy Now</button>
-                </div>
-                <div class="cart-item">
-                    <img src="https://placehold.co/300x200" alt="Idk" class="cart-image">
-                    <h1 class="cart-heading">FireWatch Fiery Pheonix</h1>
-                    <p class="cart-description">The all new pheonix edition provides a new display with finishes from a pheonix ashes taken from Dumbledore's pheonix Fawks the bird was carefully killed a million times to get the perfect amount of pheonix ash to make this watch.</p>
-                    <button class="btn" id="cart-btn">Buy Now</button>
-                </div>
-                <div class="cart-item">
-                    <img src="https://placehold.co/300x200" alt="Idk" class="cart-image">
-                    <h1 class="cart-heading">FireWatch Fiery Pheonix</h1>
-                    <p class="cart-description">The all new pheonix edition provides a new display with finishes from a pheonix ashes taken from Dumbledore's pheonix Fawks the bird was carefully killed a million times to get the perfect amount of pheonix ash to make this watch.</p>
-                    <button class="btn" id="cart-btn">Buy Now</button>
-                </div>
-                <div class="cart-item">
-                    <img src="https://placehold.co/300x200" alt="Idk" class="cart-image">
-                    <h1 class="cart-heading">FireWatch Fiery Pheonix</h1>
-                    <p class="cart-description">The all new pheonix edition provides a new display with finishes from a pheonix ashes taken from Dumbledore's pheonix Fawks the bird was carefully killed a million times to get the perfect amount of pheonix ash to make this watch.</p>
-                    <button class="btn" id="cart-btn">Buy Now</button>
-                </div>
-                <div class="cart-item">
-                    <img src="https://placehold.co/300x200" alt="Idk" class="cart-image">
-                    <h1 class="cart-heading">FireWatch Fiery Pheonix</h1>
-                    <p class="cart-description">The all new pheonix edition provides a new display with finishes from a pheonix ashes taken from Dumbledore's pheonix Fawks the bird was carefully killed a million times to get the perfect amount of pheonix ash to make this watch.</p>
-                    <button class="btn" id="cart-btn">Buy Now</button>
-                </div>
-                
+  <div class="tab cart">
+    <h1 id="carts-heading">
+      Add to Cart
+    </h1>
+    <div class="container">
+      <div class="cart-container">
+        <div class="cart-item">
+          <img src="https://placehold.co/300x200" alt="Idk" class="cart-image">
+          <h1 class="cart-heading">FireWatch Fiery Pheonix</h1>
+          <p class="cart-description">The all new pheonix edition provides a new display with finishes from a pheonix
+            ashes taken from Dumbledore's pheonix Fawks the bird was carefully killed a million times to get the perfect
+            amount of pheonix ash to make this watch.</p>
+          <button>
+            <div class="default-btn">
+              <svg class="css-i6dzq1" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke-width="2"
+                stroke="#FFF" height="20" width="20" viewBox="0 0 24 24">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle r="3" cy="12" cx="12"></circle>
+              </svg>
+              <span>Quick View</span>
             </div>
+            <div class="hover-btn">
+              <svg class="css-i6dzq1" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke-width="2"
+                stroke="#ffd300" height="20" width="20" viewBox="0 0 24 24">
+                <circle r="1" cy="21" cx="9"></circle>
+                <circle r="1" cy="21" cx="20"></circle>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+              </svg>
+              <span>Shop Now</span>
+            </div>
+          </button>
         </div>
+        <div class="cart-item">
+          <img src="https://placehold.co/300x200" alt="Idk" class="cart-image">
+          <h1 class="cart-heading">FireWatch Fiery Pheonix</h1>
+          <p class="cart-description">The all new pheonix edition provides a new display with finishes from a pheonix
+            ashes taken from Dumbledore's pheonix Fawks the bird was carefully killed a million times to get the perfect
+            amount of pheonix ash to make this watch.</p>
+          <button>
+            <div class="default-btn">
+              <svg class="css-i6dzq1" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke-width="2"
+                stroke="#FFF" height="20" width="20" viewBox="0 0 24 24">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle r="3" cy="12" cx="12"></circle>
+              </svg>
+              <span>Quick View</span>
+            </div>
+            <div class="hover-btn">
+              <svg class="css-i6dzq1" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke-width="2"
+                stroke="#ffd300" height="20" width="20" viewBox="0 0 24 24">
+                <circle r="1" cy="21" cx="9"></circle>
+                <circle r="1" cy="21" cx="20"></circle>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+              </svg>
+              <span>Shop Now</span>
+            </div>
+          </button>
+        </div>
+        <div class="cart-item">
+          <img src="https://placehold.co/300x200" alt="Idk" class="cart-image">
+          <h1 class="cart-heading">FireWatch Fiery Pheonix</h1>
+          <p class="cart-description">The all new pheonix edition provides a new display with finishes from a pheonix
+            ashes taken from Dumbledore's pheonix Fawks the bird was carefully killed a million times to get the perfect
+            amount of pheonix ash to make this watch.</p>
+          <button>
+            <div class="default-btn">
+              <svg class="css-i6dzq1" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke-width="2"
+                stroke="#FFF" height="20" width="20" viewBox="0 0 24 24">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle r="3" cy="12" cx="12"></circle>
+              </svg>
+              <span>Quick View</span>
+            </div>
+            <div class="hover-btn">
+              <svg class="css-i6dzq1" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke-width="2"
+                stroke="#ffd300" height="20" width="20" viewBox="0 0 24 24">
+                <circle r="1" cy="21" cx="9"></circle>
+                <circle r="1" cy="21" cx="20"></circle>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+              </svg>
+              <span>Shop Now</span>
+            </div>
+          </button>
+        </div>
+        <div class="cart-item">
+          <img src="https://placehold.co/300x200" alt="Idk" class="cart-image">
+          <h1 class="cart-heading">FireWatch Fiery Pheonix</h1>
+          <p class="cart-description">The all new pheonix edition provides a new display with finishes from a pheonix
+            ashes taken from Dumbledore's pheonix Fawks the bird was carefully killed a million times to get the perfect
+            amount of pheonix ash to make this watch.</p>
+          <button>
+            <div class="default-btn">
+              <svg class="css-i6dzq1" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke-width="2"
+                stroke="#FFF" height="20" width="20" viewBox="0 0 24 24">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle r="3" cy="12" cx="12"></circle>
+              </svg>
+              <span>Quick View</span>
+            </div>
+            <div class="hover-btn">
+              <svg class="css-i6dzq1" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke-width="2"
+                stroke="#ffd300" height="20" width="20" viewBox="0 0 24 24">
+                <circle r="1" cy="21" cx="9"></circle>
+                <circle r="1" cy="21" cx="20"></circle>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+              </svg>
+              <span>Shop Now</span>
+            </div>
+          </button>
+        </div>
+        <div class="cart-item">
+          <img src="https://placehold.co/300x200" alt="Idk" class="cart-image">
+          <h1 class="cart-heading">FireWatch Fiery Pheonix</h1>
+          <p class="cart-description">The all new pheonix edition provides a new display with finishes from a pheonix
+            ashes taken from Dumbledore's pheonix Fawks the bird was carefully killed a million times to get the perfect
+            amount of pheonix ash to make this watch.</p>
+          <button>
+            <div class="default-btn">
+              <svg class="css-i6dzq1" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke-width="2"
+                stroke="#FFF" height="20" width="20" viewBox="0 0 24 24">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle r="3" cy="12" cx="12"></circle>
+              </svg>
+              <span>Quick View</span>
+            </div>
+            <div class="hover-btn">
+              <svg class="css-i6dzq1" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke-width="2"
+                stroke="#ffd300" height="20" width="20" viewBox="0 0 24 24">
+                <circle r="1" cy="21" cx="9"></circle>
+                <circle r="1" cy="21" cx="20"></circle>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+              </svg>
+              <span>Shop Now</span>
+            </div>
+          </button>
+        </div>
+        <div class="cart-item">
+          <img src="https://placehold.co/300x200" alt="Idk" class="cart-image">
+          <h1 class="cart-heading">FireWatch Fiery Pheonix</h1>
+          <p class="cart-description">The all new pheonix edition provides a new display with finishes from a pheonix
+            ashes taken from Dumbledore's pheonix Fawks the bird was carefully killed a million times to get the perfect
+            amount of pheonix ash to make this watch.</p>
+          <button>
+            <div class="default-btn">
+              <svg class="css-i6dzq1" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke-width="2"
+                stroke="#FFF" height="20" width="20" viewBox="0 0 24 24">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle r="3" cy="12" cx="12"></circle>
+              </svg>
+              <span>Quick View</span>
+            </div>
+            <div class="hover-btn">
+              <svg class="css-i6dzq1" stroke-linejoin="round" stroke-linecap="round" fill="none" stroke-width="2"
+                stroke="#ffd300" height="20" width="20" viewBox="0 0 24 24">
+                <circle r="1" cy="21" cx="9"></circle>
+                <circle r="1" cy="21" cx="20"></circle>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+              </svg>
+              <span>Shop Now</span>
+            </div>
+          </button>
+        </div>
+
+      </div>
     </div>
-    <div class="tab contact">
-        <div class="container-form">
-            <span class="big-circle"></span>
-            <img src="img/shape.png" class="square" alt="" />
-            <div class="form">
-              <div class="contact-info">
-                <h3 class="title">Let's get in touch</h3>
-                <p class="text">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe
-                  dolorum adipisci recusandae praesentium dicta!
-                </p>
-      
-                <div class="info">
-                  <div class="information">
-                    <i class="fas fa-map-marker-alt"></i> &nbsp &nbsp
-      
-                    <p>92 Cherry Drive Uniondale, NY 11553</p>
-                  </div>
-                  <div class="information">
-                    <i class="fas fa-envelope"></i> &nbsp &nbsp
-                    <p>lorem@ipsum.com</p>
-                  </div>
-                  <div class="information">
-                    <i class="fas fa-phone"></i>&nbsp&nbsp
-                    <p>123-456-789</p>
-                  </div>
-                </div>
-      
-                <div class="social-media">
-                  <p>Connect with us :</p>
-                  <div class="social-icons">
-                    <a href="#">
-                      <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="#">
-                      <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="#">
-                      <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="#">
-                      <i class="fab fa-linkedin-in"></i>
-                    </a>
-                  </div>
-                </div>
-              </div>
-      
-              <div class="contact-form">
-                <span class="circle one"></span>
-                <span class="circle two"></span>
-      
-                <form action="index.html" autocomplete="off">
-                  <h3 class="title">Contact us</h3>
-                  <div class="input-container">
-                    <input type="text" name="name" class="input" />
-                    <label for="">Username</label>
-                    <span>Username</span>
-                  </div>
-                  <div class="input-container">
-                    <input type="email" name="email" class="input" />
-                    <label for="">Email</label>
-                    <span>Email</span>
-                  </div>
-                  <div class="input-container">
-                    <input type="tel" name="phone" class="input" />
-                    <label for="">Phone</label>
-                    <span>Phone</span>
-                  </div>
-                  <div class="input-container textarea">
-                    <textarea name="message" class="input"></textarea>
-                    <label for="">Message</label>
-                    <span>Message</span>
-                  </div>
-                  <input type="submit" value="Send" class="btn-submit" />
-                </form>
-              </div>
+  </div>
+  <div class="tab contact">
+    <div class="container-form">
+      <span class="big-circle"></span>
+      <img src="img/shape.png" class="square" alt="" />
+      <div class="form">
+        <div class="contact-info">
+          <h3 class="title">Let's get in touch</h3>
+          <p class="text">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe
+            dolorum adipisci recusandae praesentium dicta!
+          </p>
+
+          <div class="info">
+            <div class="information">
+              <i class="fas fa-map-marker-alt"></i> &nbsp &nbsp
+
+              <p>92 Cherry Drive Uniondale, NY 11553</p>
+            </div>
+            <div class="information">
+              <i class="fas fa-envelope"></i> &nbsp &nbsp
+              <p>lorem@ipsum.com</p>
+            </div>
+            <div class="information">
+              <i class="fas fa-phone"></i>&nbsp&nbsp
+              <p>123-456-789</p>
             </div>
           </div>
+
+          <div class="social-media">
+            <p>Connect with us :</p>
+            <div class="social-icons">
+              <a href="#">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a href="#">
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a href="#">
+                <i class="fab fa-instagram"></i>
+              </a>
+              <a href="#">
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-form">
+          <span class="circle one"></span>
+          <span class="circle two"></span>
+
+          <form action="index.html" autocomplete="off">
+            <h3 class="title">Contact us</h3>
+            <div class="input-container">
+              <input type="text" name="name" class="input" />
+              <label for="">Username</label>
+              <span>Username</span>
+            </div>
+            <div class="input-container">
+              <input type="email" name="email" class="input" />
+              <label for="">Email</label>
+              <span>Email</span>
+            </div>
+            <div class="input-container">
+              <input type="tel" name="phone" class="input" />
+              <label for="">Phone</label>
+              <span>Phone</span>
+            </div>
+            <div class="input-container textarea">
+              <textarea name="message" class="input"></textarea>
+              <label for="">Message</label>
+              <span>Message</span>
+            </div>
+            <input type="submit" value="Send" class="btn-submit" />
+          </form>
+        </div>
+      </div>
     </div>
-    <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script> 
-    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
-    <script src="app.js"></script>
+  </div>
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+  <script src="app.js"></script>
 </body>
+
 </html>
