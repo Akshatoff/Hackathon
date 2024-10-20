@@ -2,6 +2,30 @@ const cursor = document.getElementById("cursor");
 let listBg = document.querySelectorAll('.bg');
 let listTab = document.querySelectorAll('.tab');
 let titleBanner = document.querySelector('.banner h1');
+const textnav = document.getElementById("text-nav");
+const imagenav = document.getElementById("image-nav");
+const textsec = document.getElementById("text-section");
+const imagesec = document.getElementById("image-section");
+
+textnav.classList.add("activesec");
+imagesec.style.display = "none";
+
+textnav.addEventListener("click", function() {
+  textnav.classList.add("activesec");
+  imagenav.classList.remove("activesec");
+  textsec.style.display = "flex";
+  imagesec.style.display = "none";
+
+})
+
+imagenav.addEventListener("click", function() {
+  textnav.classList.remove("activesec");
+  imagenav.classList.add("activesec");
+  textsec.style.display = "none";
+  imagesec.style.display = "block";
+  
+})
+
 window.addEventListener("scroll", (event) => {
     /*scrollY is the web scrollbar position (pixel)*/
     let top = this.scrollY;
@@ -31,6 +55,8 @@ window.addEventListener("scroll", (event) => {
         }
     })
 });  
+
+
 
 const inputs = document.querySelectorAll(".input");
 
