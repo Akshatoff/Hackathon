@@ -1,0 +1,17 @@
+{
+  "name": "filter-app",
+  "version": "1.0.0",
+  "description": "Filter app for text and image verification",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'No build step needed'",
+    "start": "vercel --prod"
+  },
+  "dependencies": {
+    "form-data": "^4.0.0"
+  },
+  "keywords": ["fact-checking", "ai-detection", "verification"],
+  "author": "Your Name",
+  "license": "MIT"
+}

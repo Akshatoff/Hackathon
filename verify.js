@@ -1,8 +1,29 @@
-// API Keys - Replace with your actual keys
-const OPENROUTER_API_KEY = "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";
-const NEWS_API_TOKEN = "V5jTTfcrQs9CAFIjeLS9ZotFJ1NA0bdBsUAbCASJ";
-const SIGHTENGINE_API_USER = "154303857";
-const SIGHTENGINE_API_SECRET = "VbN5SrRTPXUB8ccA37YhXE6XvgBJT9iq";
+// Wait for DOM to be fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, verify.js ready');
+
+    // Check if required elements exist
+    const requiredElements = ['input-verfiy', 'response', 'articles', 'imageInput', 'imagePreview', 'aiDetectionResult'];
+    const missingElements = requiredElements.filter(id => !document.getElementById(id));
+
+    if (missingElements.length > 0) {
+        console.warn('Missing HTML elements:', missingElements);
+    } else {
+        console.log('All required elements found ✅');
+    }
+});
+
+// Detect environment and set API endpoints
+const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+const API_BASE = isLocalhost ? '' : '/api';
+
+// Local development API keys (only used when running locally)
+const LOCAL_KEYS = {
+    OPENROUTER_API_KEY: "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",
+    NEWS_API_TOKEN: "V5jTTfcrQs9CAFIjeLS9ZotFJ1NA0bdBsUAbCASJ",
+    SIGHTENGINE_API_USER: "154303857",
+    SIGHTENGINE_API_SECRET: "VbN5SrRTPXUB8ccA37YhXE6XvgBJT9iq"
+};
 
 async function verifyText() {
     const text = document.getElementById('input-verfiy').value;
@@ -11,108 +32,180 @@ async function verifyText() {
         return;
     }
 
+    // Get response element and check if it exists
+    const responseElement = document.getElementById('response');
+    if (!responseElement) {
+        console.error('Response element not found!');
+        alert('Error: Response element not found. Please check the HTML structure.');
+        return;
+    }
+
     // Show loading state
-    document.getElementById('response').innerHTML = 'Verifying text...';
+    responseElement.innerHTML = 'Verifying text...';
 
     try {
-        const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
-                'HTTP-Referer': window.location.href, // Required by OpenRouter
-                'X-Title': 'Filter App' // Optional but recommended
-            },
-            body: JSON.stringify({
-                model: "google/gemma-2-9b-it", // Updated to use correct Gemma 2 model
-                messages: [
-                    {
-                        role: "system",
-                        content: "You are a fact-checking assistant. Analyze the given text and determine if it's likely to be true, false, or needs more context. Provide a brief explanation of your reasoning. Format your response as: 'VERDICT: [TRUE/FALSE/NEEDS CONTEXT] - [Brief explanation]'"
-                    },
-                    {
-                        role: "user",
-                        content: `Please fact-check this text: "${text}"`
-                    }
-                ],
-                max_tokens: 200,
-                temperature: 0.1
-            })
-        });
-
-        // Check if response is ok first
-        if (!response.ok) {
-            const errorText = await response.text();
-            let errorData;
-            try {
-                errorData = JSON.parse(errorText);
-            } catch (e) {
-                errorData = { error: { message: errorText } };
-            }
-            throw new Error(`API Error ${response.status}: ${errorData.error?.message || 'Unknown error'}`);
+        if (isLocalhost) {
+            // Local development: direct API call
+            await verifyTextDirect(text);
+        } else {
+            // Production: use Vercel API route
+            await verifyTextViaAPI(text);
         }
-
-        const data = await response.json();
-
-        // Better error handling for API response structure
-        if (!data || !data.choices || !Array.isArray(data.choices) || data.choices.length === 0) {
-            console.error('Invalid API response:', data);
-            throw new Error('Invalid response format from API - no choices array');
-        }
-
-        if (!data.choices[0] || !data.choices[0].message || !data.choices[0].message.content) {
-            console.error('Invalid choice structure:', data.choices[0]);
-            throw new Error('Invalid response format from API - no message content');
-        }
-
-        const aiResponse = data.choices[0].message.content;
-        document.getElementById('response').innerHTML = `<strong>AI Analysis:</strong> ${aiResponse}`;
-
-        // Fetch related news articles
-        await fetchNews(text);
 
     } catch (error) {
         console.error("Error:", error);
 
-        // More specific error messages
         let errorMessage = "Failed to verify text. ";
         if (error.message.includes('402')) {
-            errorMessage += "Payment required - please check your OpenRouter API key billing status. You may need to add credits to your account.";
+            errorMessage += "Payment required - please check your OpenRouter API key billing status.";
         } else if (error.message.includes('401')) {
             errorMessage += "Invalid API key - please check your OpenRouter credentials.";
         } else if (error.message.includes('429')) {
             errorMessage += "Rate limit exceeded - please try again later.";
-        } else if (error.message.includes('400')) {
-            errorMessage += "Bad request - there might be an issue with the model name or request format.";
         } else {
             errorMessage += error.message;
         }
 
-        document.getElementById('response').innerHTML = `<strong style="color: red;">Error:</strong> ${errorMessage}`;
+        responseElement.innerHTML = `<strong style="color: red;">Error:</strong> ${errorMessage}`;
     }
+}
+
+// Direct API call for local development
+async function verifyTextDirect(text) {
+    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${LOCAL_KEYS.OPENROUTER_API_KEY}`,
+            'HTTP-Referer': window.location.href,
+            'X-Title': 'Filter App'
+        },
+        body: JSON.stringify({
+            model: "google/gemma-2-9b-it",
+            messages: [
+                {
+                    role: "system",
+                    content: "You are a fact-checking assistant. Analyze the given text and determine if it's likely to be true, false, or needs more context. Provide a brief explanation of your reasoning. Format your response as: 'VERDICT: [TRUE/FALSE/NEEDS CONTEXT] - [Brief explanation]'"
+                },
+                {
+                    role: "user",
+                    content: `Please fact-check this text: "${text}"`
+                }
+            ],
+            max_tokens: 200,
+            temperature: 0.1
+        })
+    });
+
+    if (!response.ok) {
+        const errorText = await response.text();
+        let errorData;
+        try {
+            errorData = JSON.parse(errorText);
+        } catch (e) {
+            errorData = { error: { message: errorText } };
+        }
+        throw new Error(`API Error ${response.status}: ${errorData.error?.message || 'Unknown error'}`);
+    }
+
+    const data = await response.json();
+
+    if (!data || !data.choices || !Array.isArray(data.choices) || data.choices.length === 0) {
+        throw new Error('Invalid response format from API');
+    }
+
+    if (!data.choices[0] || !data.choices[0].message || !data.choices[0].message.content) {
+        throw new Error('Invalid response format from API');
+    }
+
+    const aiResponse = data.choices[0].message.content;
+    const responseElement = document.getElementById('response');
+    if (responseElement) {
+        responseElement.innerHTML = `<strong>AI Analysis:</strong> ${aiResponse}`;
+    }
+
+    await fetchNews(text);
+}
+
+// API route call for production
+async function verifyTextViaAPI(text) {
+    const response = await fetch('/api/verify-text', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ text })
+    });
+
+    const data = await response.json();
+
+    if (!data.success) {
+        throw new Error(data.error || 'Unknown error');
+    }
+
+    const responseElement = document.getElementById('response');
+    if (responseElement) {
+        responseElement.innerHTML = `<strong>AI Analysis:</strong> ${data.result}`;
+    }
+    await fetchNews(text);
 }
 
 async function fetchNews(query) {
     try {
-        const url = `https://api.thenewsapi.com/v1/news/all?api_token=${NEWS_API_TOKEN}&search=${encodeURIComponent(query)}&limit=5`;
-
-        const response = await fetch(url);
-
-        if (!response.ok) {
-            throw new Error(`News API Error ${response.status}`);
+        if (isLocalhost) {
+            await fetchNewsDirect(query);
+        } else {
+            await fetchNewsViaAPI(query);
         }
-
-        const result = await response.json();
-        displayArticles(result.data || []);
-
     } catch (error) {
         console.error('Error fetching news:', error);
-        document.getElementById('articles').innerHTML = '<p style="color: orange;">Unable to fetch related news articles at this time.</p>';
+        const articlesElement = document.getElementById('articles');
+        if (articlesElement) {
+            articlesElement.innerHTML = '<p style="color: orange;">Unable to fetch related news articles at this time.</p>';
+        }
     }
+}
+
+// Direct news API call for local development
+async function fetchNewsDirect(query) {
+    const url = `https://api.thenewsapi.com/v1/news/all?api_token=${LOCAL_KEYS.NEWS_API_TOKEN}&search=${encodeURIComponent(query)}&limit=5`;
+
+    const response = await fetch(url);
+
+    if (!response.ok) {
+        throw new Error(`News API Error ${response.status}`);
+    }
+
+    const result = await response.json();
+    displayArticles(result.data || []);
+}
+
+// News API route call for production
+async function fetchNewsViaAPI(query) {
+    const response = await fetch('/api/fetch-news', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ query })
+    });
+
+    const data = await response.json();
+
+    if (!data.success) {
+        throw new Error(data.error || 'Failed to fetch news');
+    }
+
+    displayArticles(data.articles);
 }
 
 function displayArticles(articles) {
     const articlesContainer = document.getElementById('articles');
+
+    if (!articlesContainer) {
+        console.error('Articles container not found!');
+        return;
+    }
 
     if (!articles || articles.length === 0) {
         articlesContainer.innerHTML = '<h3 class="articles-header">No related news articles found.</h3>';
@@ -122,7 +215,7 @@ function displayArticles(articles) {
     articlesContainer.innerHTML = '<h3 class="articles-header">Related News Articles:</h3>';
 
     articles.forEach(article => {
-        if (!article) return; // Skip null/undefined articles
+        if (!article) return;
 
         const articleElement = document.createElement('div');
         articleElement.className = 'article';
@@ -137,29 +230,37 @@ function displayArticles(articles) {
 
 let selectedImage = null;
 
-document.getElementById('imageInput').addEventListener('change', function(event) {
-    const file = event.target.files[0];
-    if (file) {
-        // Validate file type
-        if (!file.type.startsWith('image/')) {
-            alert('Please select a valid image file.');
-            return;
-        }
+// Wait for DOM before adding event listeners
+document.addEventListener('DOMContentLoaded', function() {
+    const imageInput = document.getElementById('imageInput');
+    if (imageInput) {
+        imageInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                // Validate file type
+                if (!file.type.startsWith('image/')) {
+                    alert('Please select a valid image file.');
+                    return;
+                }
 
-        // Validate file size (max 10MB)
-        if (file.size > 10 * 1024 * 1024) {
-            alert('Image file is too large. Please select an image smaller than 10MB.');
-            return;
-        }
+                // Validate file size (max 10MB)
+                if (file.size > 10 * 1024 * 1024) {
+                    alert('Image file is too large. Please select an image smaller than 10MB.');
+                    return;
+                }
 
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            selectedImage = e.target.result;
-            const imagePreview = document.getElementById('imagePreview');
-            imagePreview.src = selectedImage;
-            imagePreview.style.display = 'block';
-        }
-        reader.readAsDataURL(file);
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    selectedImage = e.target.result;
+                    const imagePreview = document.getElementById('imagePreview');
+                    if (imagePreview) {
+                        imagePreview.src = selectedImage;
+                        imagePreview.style.display = 'block';
+                    }
+                }
+                reader.readAsDataURL(file);
+            }
+        });
     }
 });
 
@@ -170,51 +271,20 @@ async function verifyImage() {
     }
 
     // Show loading state
-    document.getElementById('aiDetectionResult').textContent = "Analyzing image...";
+    const resultElement = document.getElementById('aiDetectionResult');
+    if (!resultElement) {
+        console.error('AI detection result element not found!');
+        return;
+    }
 
-    const formData = new FormData();
-    formData.append('media', dataURItoBlob(selectedImage));
-    formData.append('models', 'genai');
-    formData.append('api_user', SIGHTENGINE_API_USER);
-    formData.append('api_secret', SIGHTENGINE_API_SECRET);
+    resultElement.textContent = "Analyzing image...";
 
     try {
-        const response = await fetch('https://api.sightengine.com/1.0/check.json', {
-            method: 'POST',
-            body: formData
-        });
-
-        if (!response.ok) {
-            const errorText = await response.text();
-            throw new Error(`SightEngine API Error ${response.status}: ${errorText}`);
-        }
-
-        const data = await response.json();
-
-        // Better error handling for SightEngine response
-        if (data.status === 'failure') {
-            throw new Error(data.error?.message || 'SightEngine API error');
-        }
-
-        if (!data.type || data.type.ai_generated === undefined) {
-            console.error('Invalid SightEngine response:', data);
-            throw new Error('Invalid response from AI detection service - no ai_generated field');
-        }
-
-        const confidence = (data.type.ai_generated * 100).toFixed(1);
-
-        if (data.type.ai_generated > 0.5) {
-            document.getElementById('aiDetectionResult').innerHTML = `
-                <strong style="color: red;">Likely AI Generated</strong><br>
-                Confidence: ${confidence}%
-            `;
+        if (isLocalhost) {
+            await verifyImageDirect();
         } else {
-            document.getElementById('aiDetectionResult').innerHTML = `
-                <strong style="color: green;">Likely Not AI Generated</strong><br>
-                Confidence: ${(100 - confidence).toFixed(1)}%
-            `;
+            await verifyImageViaAPI();
         }
-
     } catch (error) {
         console.error('Error detecting AI image:', error);
 
@@ -223,13 +293,80 @@ async function verifyImage() {
             errorMessage += "Invalid SightEngine API credentials.";
         } else if (error.message.includes('402')) {
             errorMessage += "SightEngine API payment required.";
-        } else if (error.message.includes('400')) {
-            errorMessage += "Bad request - check image format and size.";
         } else {
             errorMessage += error.message;
         }
 
-        document.getElementById('aiDetectionResult').innerHTML = `<strong style="color: red;">Error:</strong> ${errorMessage}`;
+        resultElement.innerHTML = `<strong style="color: red;">Error:</strong> ${errorMessage}`;
+    }
+}
+
+// Direct image verification for local development
+async function verifyImageDirect() {
+    const formData = new FormData();
+    formData.append('media', dataURItoBlob(selectedImage));
+    formData.append('models', 'genai');
+    formData.append('api_user', LOCAL_KEYS.SIGHTENGINE_API_USER);
+    formData.append('api_secret', LOCAL_KEYS.SIGHTENGINE_API_SECRET);
+
+    const response = await fetch('https://api.sightengine.com/1.0/check.json', {
+        method: 'POST',
+        body: formData
+    });
+
+    if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`SightEngine API Error ${response.status}: ${errorText}`);
+    }
+
+    const data = await response.json();
+
+    if (data.status === 'failure') {
+        throw new Error(data.error?.message || 'SightEngine API error');
+    }
+
+    if (!data.type || data.type.ai_generated === undefined) {
+        throw new Error('Invalid response from AI detection service');
+    }
+
+    displayImageResult(data.type.ai_generated);
+}
+
+// Image verification via API route for production
+async function verifyImageViaAPI() {
+    const response = await fetch('/api/verify-image', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ imageData: selectedImage })
+    });
+
+    const data = await response.json();
+
+    if (!data.success) {
+        throw new Error(data.error || 'Failed to analyze image');
+    }
+
+    displayImageResult(data.aiGenerated);
+}
+
+function displayImageResult(aiGenerated) {
+    const resultElement = document.getElementById('aiDetectionResult');
+    if (!resultElement) return;
+
+    const confidence = (aiGenerated * 100).toFixed(1);
+
+    if (aiGenerated > 0.5) {
+        resultElement.innerHTML = `
+            <strong style="color: red;">Likely AI Generated</strong><br>
+            Confidence: ${confidence}%
+        `;
+    } else {
+        resultElement.innerHTML = `
+            <strong style="color: green;">Likely Not AI Generated</strong><br>
+            Confidence: ${(100 - confidence).toFixed(1)}%
+        `;
     }
 }
 
