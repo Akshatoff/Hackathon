@@ -1,7 +1,5 @@
 // api/verify-image.js
 
-import FormData from 'form-data'; // Use this for ES module (Vercel supports it)
-
 export default async function handler(req, res) {
     // Enable CORS
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -24,31 +22,54 @@ export default async function handler(req, res) {
             return res.status(400).json({ error: 'Image data is required' });
         }
 
-        // Convert base64 to blob for FormData
+        // Convert base64 to buffer
         const base64Data = imageData.split(',')[1];
         const mimeType = imageData.split(',')[0].split(':')[1].split(';')[0];
         const buffer = Buffer.from(base64Data, 'base64');
 
-        // Create FormData manually for fetch
-        const FormData = require('form-data');
-        const formData = new FormData();
-        formData.append('media', buffer, { filename: 'image.jpg', contentType: mimeType });
-        formData.append('models', 'genai');
-        formData.append('api_user', process.env.SIGHTENGINE_API_USER);
-        formData.append('api_secret', process.env.SIGHTENGINE_API_SECRET);
+        // Create multipart form data manually
+        const boundary = '----formdata-' + Math.random().toString(36);
+        let body = '';
+        
+        // Add form fields
+        body += `--${boundary}\r\n`;
+        body += `Content-Disposition: form-data; name="models"\r\n\r\n`;
+        body += `genai\r\n`;
+        
+        body += `--${boundary}\r\n`;
+        body += `Content-Disposition: form-data; name="api_user"\r\n\r\n`;
+        body += `${process.env.SIGHTENGINE_API_USER}\r\n`;
+        
+        body += `--${boundary}\r\n`;
+        body += `Content-Disposition: form-data; name="api_secret"\r\n\r\n`;
+        body += `${process.env.SIGHTENGINE_API_SECRET}\r\n`;
+        
+        // Add file data
+        body += `--${boundary}\r\n`;
+        body += `Content-Disposition: form-data; name="media"; filename="image.${mimeType.split('/')[1]}"\r\n`;
+        body += `Content-Type: ${mimeType}\r\n\r\n`;
+        
+        // Convert to Buffer and combine
+        const bodyStart = Buffer.from(body, 'utf8');
+        const bodyEnd = Buffer.from(`\r\n--${boundary}--\r\n`, 'utf8');
+        const fullBody = Buffer.concat([bodyStart, buffer, bodyEnd]);
 
         const response = await fetch('https://api.sightengine.com/1.0/check.json', {
             method: 'POST',
-            body: formData,
-            headers: formData.getHeaders()
+            headers: {
+                'Content-Type': `multipart/form-data; boundary=${boundary}`,
+            },
+            body: fullBody
         });
 
         if (!response.ok) {
             const errorText = await response.text();
+            console.error('SightEngine API Response:', errorText);
             throw new Error(`SightEngine API Error ${response.status}: ${errorText}`);
         }
 
         const data = await response.json();
+        console.log('SightEngine API Response:', data);
         
         if (data.status === 'failure') {
             throw new Error(data.error?.message || 'SightEngine API error');
