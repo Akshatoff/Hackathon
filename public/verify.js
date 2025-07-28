@@ -19,7 +19,7 @@ const API_BASE = isLocalhost ? '' : '/api';
 
 // Local development API keys (only used when running locally)
 const LOCAL_KEYS = {
-    OPENROUTER_API_KEY: "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",
+    OPENROUTER_API_KEY: "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",
     NEWS_API_TOKEN: "V5jTTfcrQs9CAFIjeLS9ZotFJ1NA0bdBsUAbCASJ",
     SIGHTENGINE_API_USER: "154303857",
     SIGHTENGINE_API_SECRET: "VbN5SrRTPXUB8ccA37YhXE6XvgBJT9iq"

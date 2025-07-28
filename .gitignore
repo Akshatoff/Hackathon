@@ -1,0 +1,18 @@
+    # Ignore compiled output
+    *.o
+    *.class
+
+    # Ignore build directories
+    /build/
+    /dist/
+
+    # Ignore Node.js modules
+    node_modules/
+
+    # Ignore log files
+    *.log
+
+    # Ignore specific files
+    .DS_Store
+    .env
+    .env.local
