@@ -1,4 +1,7 @@
 // api/verify-image.js
+
+import FormData from 'form-data'; // Use this for ES module (Vercel supports it)
+
 export default async function handler(req, res) {
     // Enable CORS
     res.setHeader('Access-Control-Allow-Origin', '*');

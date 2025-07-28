@@ -1,19 +1,33 @@
-    # Ignore compiled output
-    *.o
-    *.class
+# Node modules
+node_modules/
 
-    # Ignore build directories
-    /build/
-    /dist/
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-    # Ignore Node.js modules
-    node_modules/
+# OS junk
+.DS_Store
+Thumbs.db
 
-    # Ignore log files
-    *.log
+# dotenv files (keep secrets local)
+.env
+.env.local
+.env.*.local
 
-    # Ignore specific files
-    .DS_Store
-    .env
-    .env.local  
-    .env *
+# Build output (if you use any bundler or static builds)
+dist/
+build/
+out/
+
+# Vercel (local config; not needed in repo)
+.vercel/
+
+# IDE/editor junk
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Mac zip metadata
+__MACOSX/

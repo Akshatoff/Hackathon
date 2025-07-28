@@ -9,9 +9,13 @@
     "start": "vercel --prod"
   },
   "dependencies": {
-    "form-data": "^4.0.0"
+    "form-data": "^4.0.4"
   },
-  "keywords": ["fact-checking", "ai-detection", "verification"],
+  "keywords": [
+    "fact-checking",
+    "ai-detection",
+    "verification"
+  ],
   "author": "Your Name",
   "license": "MIT"
 }
