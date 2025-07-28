@@ -18,12 +18,6 @@ const isLocalhost = window.location.hostname === 'localhost' || window.location.
 const API_BASE = isLocalhost ? '' : '/api';
 
 // Local development API keys (only used when running locally)
-// const LOCAL_KEYS = {
-//     OPENROUTER_API_KEY: "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",
-//     NEWS_API_TOKEN: "V5jTTfcrQs9CAFIjeLS9ZotFJ1NA0bdBsUAbCASJ",
-//     SIGHTENGINE_API_USER: "154303857",
-//     SIGHTENGINE_API_SECRET: "VbN5SrRTPXUB8ccA37YhXE6XvgBJT9iq"
-// };
 
 async function verifyText() {
     const text = document.getElementById('input-verfiy').value;
